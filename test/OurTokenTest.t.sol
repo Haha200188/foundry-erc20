@@ -15,7 +15,7 @@ contract OurTokenTest is Test, ZkSyncChainChecker {
     uint256 public constant INITIAL_SUPPLY = 1_000_000 ether;
 
     OurToken public ourToken;
-    DeployOurToken public deploer;
+    DeployOurToken public deployer;
     address public deployerAddress;
     address bob;
     address alice;
@@ -23,7 +23,7 @@ contract OurTokenTest is Test, ZkSyncChainChecker {
     function setUp() public {
         deployer = new DeployOurToken();
         if (!isZkSyncChain()) {
-            ourToken = deploer.run();
+            ourToken = deployer.run();
         } else {
             ourToken = new OurToken(INITIAL_SUPPLY);
             ourToken.transfer(msg.sender, INITIAL_SUPPLY);
@@ -37,7 +37,7 @@ contract OurTokenTest is Test, ZkSyncChainChecker {
     }
 
     function testInitialSupply() public view {
-        assertEq(ourToken.totalSupply(), deploer.INITIAL_SUPPLY());
+        assertEq(ourToken.totalSupply(), deployer.INITIAL_SUPPLY());
     }
 
     function testUsersCantMint() public {
@@ -55,6 +55,6 @@ contract OurTokenTest is Test, ZkSyncChainChecker {
         vm.prank(alice);
         ourToken.transferFrom(bob, alice, transferAmount);
         assertEq(ourToken.balanceOf(bob), BOB_STATING_AMOUNT - transferAmount);
-        assertEq(ourToken.balanceOf(alice), transferAmountd);
+        assertEq(ourToken.balanceOf(alice), transferAmount);
     }
 }
